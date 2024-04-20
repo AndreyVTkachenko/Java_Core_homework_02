@@ -95,7 +95,7 @@ public class Main {
         int x;
         int y;
         do{
-            System.out.println("Введите координаты хода X и Y\n(от " + fieldSizeX + " до " + fieldSizeY + ") через пробел: ");
+            System.out.println("Введите координаты хода X и Y\n(до " + fieldSizeX + " по X и до " + fieldSizeY + " по Y) через пробел: ");
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         }
