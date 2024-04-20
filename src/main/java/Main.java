@@ -29,7 +29,7 @@ public class Main {
         fieldSizeX = scanner.nextInt();
         fieldSizeY = scanner.nextInt();
         System.out.println("Введите количество фишек для победы:");
-        int WIN_COUNT = scanner.nextInt();
+        WIN_COUNT = scanner.nextInt();
 
         while (true){
             initialize();
@@ -178,13 +178,80 @@ public class Main {
     }
 
     /**
+     * Улучшенный метод проверки победы
+     * @param dot фишка игрока
+     * @param WIN_COUNT количество фишек для победы
+     * @return
+     */
+    static boolean checkWinV2(char dot, int WIN_COUNT) {
+        for (int x = 0; x < fieldSizeX; x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
+                if (check1(x, y, dot, WIN_COUNT) || check2(x, y, dot, WIN_COUNT) ||
+                        check3(x, y, dot, WIN_COUNT) || check4(x, y, dot, WIN_COUNT)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    static boolean check1(int x, int y, char dot, int WIN_COUNT) {
+        int count = 0;
+        for (int i = 0; i < WIN_COUNT; i++) {
+            if (x + i < fieldSizeX && field[x + i][y] == dot) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == WIN_COUNT;
+    }
+
+    static boolean check2(int x, int y, char dot, int WIN_COUNT) {
+        int count = 0;
+        for (int i = 0; i < WIN_COUNT; i++) {
+            if (y + i < fieldSizeY && field[x][y + i] == dot) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == WIN_COUNT;
+    }
+
+    static boolean check3(int x, int y, char dot, int WIN_COUNT) {
+        int count = 0;
+        for (int i = 0; i < WIN_COUNT; i++) {
+            if (x + i < fieldSizeX && y + i < fieldSizeY && field[x + i][y + i] == dot) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == WIN_COUNT;
+    }
+
+    static boolean check4(int x, int y, char dot, int WIN_COUNT) {
+        int count = 0;
+        for (int i = 0; i < WIN_COUNT; i++) {
+            if (x + i < fieldSizeX && y - i >= 0 && field[x + i][y - i] == dot) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == WIN_COUNT;
+    }
+
+
+    /**
      * Проверка состояния игры
      * @param dot фишка игрока
      * @param s победный слоган
      * @return
      */
     static boolean checkState(char dot, String s){
-        if (checkWin(dot)){
+        if (checkWinV2(dot, WIN_COUNT)){
             System.out.println(s);
             return true;
         }
