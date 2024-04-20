@@ -66,27 +66,27 @@ public class Main {
     /**
      * Печать текущего состояния игрового поля
      */
-    static void printField(){
+    static void printField() {
         System.out.print("+");
-        for(int x = 0; x < fieldSizeX; x++){
+        for (int x = 0; x < fieldSizeX; x++) {
             System.out.print("-" + (x + 1));
         }
         System.out.println("-");
 
-
-        for(int x = 0; x < fieldSizeX; x++){
-            System.out.print(x + 1 + "|");
-            for (int y = 0; y < fieldSizeY; y++){
+        for (int y = 0; y < fieldSizeY; y++) {
+            System.out.print(y + 1 + "|");
+            for (int x = 0; x < fieldSizeX; x++) {
                 System.out.print(field[x][y] + "|");
             }
             System.out.println();
         }
 
-        for(int x = 0; x < fieldSizeX * 2 + 2; x++){
+        for (int x = 0; x < fieldSizeX * 2 + 2; x++) {
             System.out.print("-");
         }
         System.out.println();
     }
+
 
     /**
      * Ход игрока (человека)
@@ -95,7 +95,7 @@ public class Main {
         int x;
         int y;
         do{
-            System.out.println("Введите координаты хода X и Y\n(от 1 до 3) через пробел: ");
+            System.out.println("Введите координаты хода X и Y\n(от " + fieldSizeX + " до " + fieldSizeY + ") через пробел: ");
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         }
