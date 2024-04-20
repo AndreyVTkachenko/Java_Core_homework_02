@@ -35,15 +35,15 @@ public class Main {
             WIN_COUNT = scanner.nextInt();
         }
 
-        while (true){
+        while (true) {
             initialize();
             printField();
-            while (true){
+            while (true) {
                 humanTurn();
                 printField();
                 if (checkState(DOT_HUMAN, "Вы победили!"))
                     break;
-                aiTurn();
+                aiTurnV2();
                 printField();
                 if (checkState(DOT_AI, "Победил компьютер!"))
                     break;
@@ -58,10 +58,10 @@ public class Main {
     /**
      * Инициализация объектов игры
      */
-    static void initialize(){
+    static void initialize() {
         field = new char[fieldSizeX][fieldSizeY];
-        for(int x = 0; x < fieldSizeX; x++){
-            for (int y = 0; y < fieldSizeY; y++){
+        for (int x = 0; x < fieldSizeX; x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
                 field[x][y] = DOT_EMPTY;
             }
         }
@@ -95,10 +95,10 @@ public class Main {
     /**
      * Ход игрока (человека)
      */
-    static void humanTurn(){
+    static void humanTurn() {
         int x;
         int y;
-        do{
+        do {
             System.out.println("Введите координаты хода X и Y\n(до " + fieldSizeX + " по X и до " + fieldSizeY + " по Y) через пробел: ");
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
@@ -110,21 +110,23 @@ public class Main {
 
     /**
      * Проверка, является ли ячейка игрового поля пустой
+     *
      * @param x
      * @param y
      * @return
      */
-    static boolean isCellEmpty(int x, int y){
+    static boolean isCellEmpty(int x, int y) {
         return field[x][y] == DOT_EMPTY;
     }
 
     /**
      * Проверка валидности координат хода
+     *
      * @param x
      * @param y
      * @return
      */
-    static boolean isCellValid(int x, int y){
+    static boolean isCellValid(int x, int y) {
         return x >= 0 && x < fieldSizeX && y >= 0 && y < fieldSizeY;
     }
 
@@ -132,10 +134,10 @@ public class Main {
     /**
      * Ход игрока (компьютера)
      */
-    static void aiTurn(){
+    static void aiTurn() {
         int x;
         int y;
-        do{
+        do {
             x = random.nextInt(fieldSizeX);
             y = random.nextInt(fieldSizeY);
         }
@@ -143,14 +145,43 @@ public class Main {
         field[x][y] = DOT_AI;
     }
 
+
+    /**
+     * Улучшенный ход игрока (компьютера)
+     */
+    static void aiTurnV2() {
+        for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
+            for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
+                if (isCellEmpty(x, y)) {// если ячейка пустая
+                    field[x][y] = DOT_HUMAN;// ставим крестик
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT - 1)) {// и если победа
+                        field[x][y] = DOT_AI;// меняем на нолик
+                        return;
+                    }
+                    field[x][y] = DOT_EMPTY;// если не победа, оставляем пустой
+                }
+            }
+        }
+        // и ставим рандомно
+        int x;
+        int y;
+        do {
+            x = random.nextInt(fieldSizeX);
+            y = random.nextInt(fieldSizeY);
+        } while (!isCellEmpty(x, y));
+        field[x][y] = DOT_AI;
+    }
+
+
     /**
      * Проверка на ничью
+     *
      * @return
      */
-    static boolean checkDraw(){
-        for(int x = 0; x < fieldSizeX; x++){
+    static boolean checkDraw() {
+        for (int x = 0; x < fieldSizeX; x++) {
 
-            for (int y = 0; y < fieldSizeY; y++){
+            for (int y = 0; y < fieldSizeY; y++) {
                 if (isCellEmpty(x, y)) return false;
             }
         }
@@ -160,10 +191,11 @@ public class Main {
     /**
      * TODO: Переработать в рамках домашней работы
      * Метод проверки победы
+     *
      * @param dot фишка игрока
      * @return
      */
-    static boolean checkWin(char dot){
+    static boolean checkWin(char dot) {
         // Проверка победы по горизонталям
         if (field[0][0] == dot && field[0][1] == dot && field[0][2] == dot) return true;
         if (field[1][0] == dot && field[1][1] == dot && field[1][2] == dot) return true;
@@ -183,32 +215,33 @@ public class Main {
 
     /**
      * Улучшенный метод проверки победы
+     *
      * @param dot фишка игрока
      * @param WIN_COUNT количество фишек для победы
      * @return
      */
     static boolean checkWinV2(char dot, int WIN_COUNT) {
-        for (int x = 0; x < fieldSizeX; x++) {
-            for (int y = 0; y < fieldSizeY; y++) {
+        for (int x = 0; x < fieldSizeX; x++) {// проверяем каждую ячейку
+            for (int y = 0; y < fieldSizeY; y++) {// каждого ряда
                 if (check1(x, y, dot, WIN_COUNT) || check2(x, y, dot, WIN_COUNT) ||
-                        check3(x, y, dot, WIN_COUNT) || check4(x, y, dot, WIN_COUNT)) {
-                    return true;
+                        check3(x, y, dot, WIN_COUNT) || check4(x, y, dot, WIN_COUNT)) {//каждым методом
+                    return true;// если любой из методов true
                 }
             }
         }
-        return false;
+        return false;// если все методы false
     }
 
     static boolean check1(int x, int y, char dot, int WIN_COUNT) {
-        int count = 0;
-        for (int i = 0; i < WIN_COUNT; i++) {
-            if (x + i < fieldSizeX && field[x + i][y] == dot) {
-                count++;
-            } else {
-                break;
+        int count = 0;// счётчик фишек
+        for (int i = 0; i < WIN_COUNT; i++) {// поехали
+            if (x + i < fieldSizeX && field[x + i][y] == dot) {// если не вышли за пределы ряда и там стоит фишка
+                count++;// прибавляем
+            } else {// условие не выполнено
+                break;// тормозим
             }
         }
-        return count == WIN_COUNT;
+        return count == WIN_COUNT;// сравниваем результат
     }
 
     static boolean check2(int x, int y, char dot, int WIN_COUNT) {
@@ -250,16 +283,16 @@ public class Main {
 
     /**
      * Проверка состояния игры
+     *
      * @param dot фишка игрока
-     * @param s победный слоган
+     * @param s   победный слоган
      * @return
      */
-    static boolean checkState(char dot, String s){
-        if (checkWinV2(dot, WIN_COUNT)){
+    static boolean checkState(char dot, String s) {
+        if (checkWinV2(dot, WIN_COUNT)) {
             System.out.println(s);
             return true;
-        }
-        else if (checkDraw()){
+        } else if (checkDraw()) {
             System.out.println("Ничья!");
             return true;
         }
