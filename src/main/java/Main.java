@@ -30,6 +30,10 @@ public class Main {
         fieldSizeY = scanner.nextInt();
         System.out.println("Введите количество фишек для победы:");
         WIN_COUNT = scanner.nextInt();
+        while (WIN_COUNT > fieldSizeX || WIN_COUNT > fieldSizeY) {
+            System.out.println("Ошибка: количество фишек для победы не может превышать размерности поля. Повторите ввод.");
+            WIN_COUNT = scanner.nextInt();
+        }
 
         while (true){
             initialize();
