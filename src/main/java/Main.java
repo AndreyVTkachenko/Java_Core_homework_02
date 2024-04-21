@@ -111,9 +111,9 @@ public class Main {
     /**
      * Проверка, является ли ячейка игрового поля пустой
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x координаты ячейки в ряду
+     * @param y координаты ячейки в столбце
+     * @return true если ячейка пуста
      */
     static boolean isCellEmpty(int x, int y) {
         return field[x][y] == DOT_EMPTY;
@@ -122,9 +122,9 @@ public class Main {
     /**
      * Проверка валидности координат хода
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x координаты ячейки в ряду
+     * @param y координаты ячейки в столбце
+     * @return true если не вышли за пределы поля
      */
     static boolean isCellValid(int x, int y) {
         return x >= 0 && x < fieldSizeX && y >= 0 && y < fieldSizeY;
@@ -183,7 +183,7 @@ public class Main {
     /**
      * Проверка на ничью
      *
-     * @return
+     * @return true если заполнены все ячейки поля
      */
     static boolean checkDraw() {
         for (int x = 0; x < fieldSizeX; x++) {
@@ -200,7 +200,7 @@ public class Main {
      * Метод проверки победы
      *
      * @param dot фишка игрока
-     * @return
+     * @return true если нашлось совпадение с выигрышным вариантом
      */
     static boolean checkWin(char dot) {
         // Проверка победы по горизонталям
@@ -225,7 +225,7 @@ public class Main {
      *
      * @param dot фишка игрока
      * @param WIN_COUNT количество фишек для победы
-     * @return
+     * @return true если нашлось совпадение с выигрышным вариантом
      */
     static boolean checkWinV2(char dot, int WIN_COUNT) {
         for (int x = 0; x < fieldSizeX; x++) {// проверяем каждую ячейку
@@ -293,7 +293,7 @@ public class Main {
      *
      * @param dot фишка игрока
      * @param s победный слоган
-     * @return
+     * @return true если есть пустые ячейки и никто из игроков не победил
      */
     static boolean checkState(char dot, String s) {
         if (checkWinV2(dot, WIN_COUNT)) {
