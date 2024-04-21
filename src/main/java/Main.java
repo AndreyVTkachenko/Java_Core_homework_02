@@ -162,14 +162,21 @@ public class Main {
                 }
             }
         }
+        // а теперь то же самое для обычной победы, не минус один
+        for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
+            for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
+                if (isCellEmpty(x, y)) {// если ячейка пустая
+                    field[x][y] = DOT_HUMAN;// ставим крестик
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT)) {// и если победа
+                        field[x][y] = DOT_AI;// меняем на нолик
+                        return;
+                    }
+                    field[x][y] = DOT_EMPTY;// если не победа, оставляем пустой
+                }
+            }
+        }
         // и ставим рандомно
-        int x;
-        int y;
-        do {
-            x = random.nextInt(fieldSizeX);
-            y = random.nextInt(fieldSizeY);
-        } while (!isCellEmpty(x, y));
-        field[x][y] = DOT_AI;
+        aiTurn();
     }
 
 
@@ -285,7 +292,7 @@ public class Main {
      * Проверка состояния игры
      *
      * @param dot фишка игрока
-     * @param s   победный слоган
+     * @param s победный слоган
      * @return
      */
     static boolean checkState(char dot, String s) {
