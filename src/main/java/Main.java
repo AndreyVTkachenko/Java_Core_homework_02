@@ -17,7 +17,7 @@ public class Main {
     private static int WIN_COUNT;
     private static final char DOT_HUMAN = 'X';
     private static final char DOT_AI = '0';
-    private static final char DOT_EMPTY = '*';
+    private static final char DOT_EMPTY = ' ';
     private static int fieldSizeX;
     private static int fieldSizeY;
     private static char[][] field;
@@ -150,11 +150,13 @@ public class Main {
      * Улучшенный ход игрока (компьютера)
      */
     static void aiTurnV2() {
+
+        // а теперь то же самое для обычной победы, не минус один
         for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
             for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
                 if (isCellEmpty(x, y)) {// если ячейка пустая
                     field[x][y] = DOT_HUMAN;// ставим крестик
-                    if (checkWinV2(DOT_HUMAN, WIN_COUNT - 1)) {// и если победа
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT)) {// и если победа
                         field[x][y] = DOT_AI;// меняем на нолик
                         return;
                     }
@@ -162,12 +164,12 @@ public class Main {
                 }
             }
         }
-        // а теперь то же самое для обычной победы, не минус один
+
         for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
             for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
                 if (isCellEmpty(x, y)) {// если ячейка пустая
                     field[x][y] = DOT_HUMAN;// ставим крестик
-                    if (checkWinV2(DOT_HUMAN, WIN_COUNT)) {// и если победа
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT - 1)) {// и если победа
                         field[x][y] = DOT_AI;// меняем на нолик
                         return;
                     }
@@ -305,5 +307,4 @@ public class Main {
         }
         return false; // Игра продолжается
     }
-
 }
