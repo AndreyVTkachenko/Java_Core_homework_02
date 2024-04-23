@@ -151,33 +151,32 @@ public class Main {
      */
     static void aiTurnV2() {
 
-        // а теперь то же самое для обычной победы, не минус один
-        for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
-            for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
-                if (isCellEmpty(x, y)) {// если ячейка пустая
-                    field[x][y] = DOT_HUMAN;// ставим крестик
-                    if (checkWinV2(DOT_HUMAN, WIN_COUNT)) {// и если победа
-                        field[x][y] = DOT_AI;// меняем на нолик
+        for (int x = 0; x < fieldSizeX; x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
+                if (isCellEmpty(x, y)) {
+                    field[x][y] = DOT_HUMAN;
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT)) {
+                        field[x][y] = DOT_AI;
                         return;
                     }
-                    field[x][y] = DOT_EMPTY;// если не победа, оставляем пустой
+                    field[x][y] = DOT_EMPTY;
                 }
             }
         }
 
-        for (int x = 0; x < fieldSizeX; x++) {// погнали по каждой ячейке ряда
-            for (int y = 0; y < fieldSizeY; y++) {// каждого столбца
-                if (isCellEmpty(x, y)) {// если ячейка пустая
-                    field[x][y] = DOT_HUMAN;// ставим крестик
-                    if (checkWinV2(DOT_HUMAN, WIN_COUNT - 1)) {// и если победа
-                        field[x][y] = DOT_AI;// меняем на нолик
+        for (int x = 0; x < fieldSizeX; x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
+                if (isCellEmpty(x, y)) {
+                    field[x][y] = DOT_HUMAN;
+                    if (checkWinV2(DOT_HUMAN, WIN_COUNT - 1)) {
+                        field[x][y] = DOT_AI;
                         return;
                     }
-                    field[x][y] = DOT_EMPTY;// если не победа, оставляем пустой
+                    field[x][y] = DOT_EMPTY;
                 }
             }
         }
-        // и ставим рандомно
+
         aiTurn();
     }
 
@@ -230,27 +229,27 @@ public class Main {
      * @return true если нашлось совпадение с выигрышным вариантом
      */
     static boolean checkWinV2(char dot, int WIN_COUNT) {
-        for (int x = 0; x < fieldSizeX; x++) {// проверяем каждую ячейку
-            for (int y = 0; y < fieldSizeY; y++) {// каждого ряда
+        for (int x = 0; x < fieldSizeX; x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
                 if (check1(x, y, dot, WIN_COUNT) || check2(x, y, dot, WIN_COUNT) ||
-                        check3(x, y, dot, WIN_COUNT) || check4(x, y, dot, WIN_COUNT)) {//каждым методом
-                    return true;// если любой из методов true
+                        check3(x, y, dot, WIN_COUNT) || check4(x, y, dot, WIN_COUNT)) {
+                    return true;
                 }
             }
         }
-        return false;// если все методы false
+        return false;
     }
 
     static boolean check1(int x, int y, char dot, int WIN_COUNT) {
-        int count = 0;// счётчик фишек
-        for (int i = 0; i < WIN_COUNT; i++) {// поехали
-            if (x + i < fieldSizeX && field[x + i][y] == dot) {// если не вышли за пределы ряда и там стоит фишка
-                count++;// прибавляем
-            } else {// условие не выполнено
-                break;// тормозим
+        int count = 0;
+        for (int i = 0; i < WIN_COUNT; i++) {
+            if (x + i < fieldSizeX && field[x + i][y] == dot) {
+                count++;
+            } else {
+                break;
             }
         }
-        return count == WIN_COUNT;// сравниваем результат
+        return count == WIN_COUNT;
     }
 
     static boolean check2(int x, int y, char dot, int WIN_COUNT) {
